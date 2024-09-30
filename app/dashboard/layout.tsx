@@ -13,8 +13,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ReactNode } from "react";
-import { requireUser } from "../lib/hooks";
-import prisma from "../lib/db";
 import { redirect } from "next/navigation";
 import Logo from "@/public/logo.png";
 import Image from "next/image";
@@ -23,27 +21,27 @@ import { ThemeToggle } from "../components/dashboard/ThemeToggle";
 import { Toaster } from "@/components/ui/sonner";
 import { auth, signOut } from "../lib/auth";
 
-async function getData(id: string) {
-  const data = await prisma.user.findUnique({
-    where: {
-      id: id,
-    },
-    select: {
-      username: true,
-      grantId: true,
-    },
-  });
+// async function getData(id: string) {
+//   const data = await prisma.user.findUnique({
+//     where: {
+//       id: id,
+//     },
+//     select: {
+//       username: true,
+//       grantId: true,
+//     },
+//   });
 
-  if (!data?.username) {
-    return redirect("/onboarding");
-  }
+//   if (!data?.username) {
+//     return redirect("/onboarding");
+//   }
 
-  if (!data.grantId) {
-    return redirect("/onboarding/grant-id");
-  }
+//   if (!data.grantId) {
+//     return redirect("/onboarding/grant-id");
+//   }
 
-  return data;
-}
+//   return data;
+// }
 
 export default async function Dashboard({ children }: { children: ReactNode }) {
   const session = await auth();
@@ -52,7 +50,6 @@ export default async function Dashboard({ children }: { children: ReactNode }) {
     return redirect("/");
   }
 
-  const data = await getData(session.user.id as string);
 
   return (
     <>

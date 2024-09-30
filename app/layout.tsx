@@ -17,33 +17,32 @@ import { ReactNode } from "react";
 import { redirect } from "next/navigation";
 import Logo from "@/public/logo.png";
 import Image from "next/image";
-import prisma from "./lib/db";
 import { auth, signOut } from "./lib/auth";
 import { DasboardLinks } from "./components/dashboard/DasboardLinks";
 import { ThemeToggle } from "./components/dashboard/ThemeToggle";
 import { Toaster } from "@/components/ui/sonner";
 
-async function getData(id: string) {
-  const data = await prisma.user.findUnique({
-    where: {
-      id: id,
-    },
-    select: {
-      username: true,
-      grantId: true,
-    },
-  });
+// async function getData(id: string) {
+//   const data = await prisma.user.findUnique({
+//     where: {
+//       id: id,
+//     },
+//     select: {
+//       username: true,
+//       grantId: true,
+//     },
+//   });
 
-  if (!data?.username) {
-    return redirect("/onboarding");
-  }
+//   if (!data?.username) {
+//     return redirect("/onboarding");
+//   }
 
-  if (!data.grantId) {
-    return redirect("/onboarding/grant-id");
-  }
+//   if (!data.grantId) {
+//     return redirect("/onboarding/grant-id");
+//   }
 
-  return data;
-}
+//   return data;
+// }
 
 export default async function Dashboard({ children }: { children: ReactNode }) {
   const session = await auth();
@@ -52,7 +51,7 @@ export default async function Dashboard({ children }: { children: ReactNode }) {
     return redirect("/");
   }
 
-  const data = await getData(session.user.id as string);
+  // const data = await getData(session.user.id as string);
 
   return (
     <>
@@ -63,7 +62,7 @@ export default async function Dashboard({ children }: { children: ReactNode }) {
               <Link href="/" className="flex items-center gap-2 font-semibold">
                 <Image src={Logo} alt="Logo" className="size-6" />
                 <p className="text-xl font-bold">
-                  Cal<span className="text-primary">Marshal</span>
+                  CAL<span className="text-primary">COM</span>
                 </p>
               </Link>
             </div>

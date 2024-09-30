@@ -13,8 +13,8 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { nylas } from "./lib/nylas";
 
-export async function onboardingAction(prevState: any, formData: FormData) {
-  const session = await requireUser();
+export async function onboardingAction(formData: FormData) {
+  // const session = await requireUser();
 
   const submission = await parseWithZod(formData, {
     schema: onboardingSchema({
@@ -35,62 +35,62 @@ export async function onboardingAction(prevState: any, formData: FormData) {
     return submission.reply();
   }
 
-  const OnboardingData = await prisma.user.update({
-    where: {
-      id: session.user?.id,
-    },
-    data: {
-      username: submission.value.username,
-      name: submission.value.fullName,
-      Availability: {
-        createMany: {
-          data: [
-            {
-              day: "Monday",
-              fromTime: "08:00",
-              tillTime: "18:00",
-            },
-            {
-              day: "Tuesday",
-              fromTime: "08:00",
-              tillTime: "18:00",
-            },
-            {
-              day: "Wednesday",
-              fromTime: "08:00",
-              tillTime: "18:00",
-            },
-            {
-              day: "Thursday",
-              fromTime: "08:00",
-              tillTime: "18:00",
-            },
-            {
-              day: "Friday",
-              fromTime: "08:00",
-              tillTime: "18:00",
-            },
-            {
-              day: "Saturday",
-              fromTime: "08:00",
-              tillTime: "18:00",
-            },
-            {
-              day: "Sunday",
-              fromTime: "08:00",
-              tillTime: "18:00",
-            },
-          ],
-        },
-      },
-    },
-  });
+  // const OnboardingData = await prisma.user.update({
+  //   where: {
+  //     id: session.user?.id,
+  //   },
+  //   data: {
+  //     username: submission.value.username,
+  //     name: submission.value.fullName,
+  //     Availability: {
+  //       createMany: {
+  //         data: [
+  //           {
+  //             day: "Monday",
+  //             fromTime: "08:00",
+  //             tillTime: "18:00",
+  //           },
+  //           {
+  //             day: "Tuesday",
+  //             fromTime: "08:00",
+  //             tillTime: "18:00",
+  //           },
+  //           {
+  //             day: "Wednesday",
+  //             fromTime: "08:00",
+  //             tillTime: "18:00",
+  //           },
+  //           {
+  //             day: "Thursday",
+  //             fromTime: "08:00",
+  //             tillTime: "18:00",
+  //           },
+  //           {
+  //             day: "Friday",
+  //             fromTime: "08:00",
+  //             tillTime: "18:00",
+  //           },
+  //           {
+  //             day: "Saturday",
+  //             fromTime: "08:00",
+  //             tillTime: "18:00",
+  //           },
+  //           {
+  //             day: "Sunday",
+  //             fromTime: "08:00",
+  //             tillTime: "18:00",
+  //           },
+  //         ],
+  //       },
+  //     },
+  //   },
+  // });
 
   return redirect("/onboarding/grant-id");
 }
 
-export async function SettingsAction(prevState: any, formData: FormData) {
-  const session = await requireUser();
+export async function SettingsAction(formData: FormData) {
+  // const session = await requireUser();
 
   const submission = parseWithZod(formData, {
     schema: aboutSettingsSchema,
@@ -100,21 +100,20 @@ export async function SettingsAction(prevState: any, formData: FormData) {
     return submission.reply();
   }
 
-  const user = await prisma.user.update({
-    where: {
-      id: session.user?.id as string,
-    },
-    data: {
-      name: submission.value.fullName,
-      image: submission.value.profileImage,
-    },
-  });
+  // const user = await prisma.user.update({
+  //   where: {
+  //     id: session.user?.id as string,
+  //   },
+  //   data: {
+  //     name: submission.value.fullName,
+  //     image: submission.value.profileImage,
+  //   },
+  // });
 
   return redirect("/dashboard");
 }
 
 export async function CreateEventTypeAction(
-  prevState: any,
   formData: FormData
 ) {
   const session = await requireUser();
@@ -138,21 +137,21 @@ export async function CreateEventTypeAction(
     return submission.reply();
   }
 
-  const data = await prisma.eventType.create({
-    data: {
-      title: submission.value.title,
-      duration: submission.value.duration,
-      url: submission.value.url,
-      description: submission.value.description,
-      userId: session.user?.id as string,
-      videoCallSoftware: submission.value.videoCallSoftware,
-    },
-  });
+  // const data = await prisma.eventType.create({
+  //   data: {
+  //     title: submission.value.title,
+  //     duration: submission.value.duration,
+  //     url: submission.value.url,
+  //     description: submission.value.description,
+  //     userId: session.user?.id as string,
+  //     videoCallSoftware: submission.value.videoCallSoftware,
+  //   },
+  // });
 
   return redirect("/dashboard");
 }
 
-export async function EditEventTypeAction(prevState: any, formData: FormData) {
+export async function EditEventTypeAction( formData: FormData) {
   const session = await requireUser();
 
   const submission = await parseWithZod(formData, {
@@ -175,58 +174,58 @@ export async function EditEventTypeAction(prevState: any, formData: FormData) {
     return submission.reply();
   }
 
-  const data = await prisma.eventType.update({
-    where: {
-      id: formData.get("id") as string,
-      userId: session.user?.id as string,
-    },
-    data: {
-      title: submission.value.title,
-      duration: submission.value.duration,
-      url: submission.value.url,
-      description: submission.value.description,
-      videoCallSoftware: submission.value.videoCallSoftware,
-    },
-  });
+  // const data = await prisma.eventType.update({
+  //   where: {
+  //     id: formData.get("id") as string,
+  //     userId: session.user?.id as string,
+  //   },
+  //   data: {
+  //     title: submission.value.title,
+  //     duration: submission.value.duration,
+  //     url: submission.value.url,
+  //     description: submission.value.description,
+  //     videoCallSoftware: submission.value.videoCallSoftware,
+  //   },
+  // });
 
   return redirect("/dashboard");
 }
 
-export async function DeleteEventTypeAction(formData: FormData) {
-  const session = await requireUser();
+export async function DeleteEventTypeAction() {
+  // const session = await requireUser();
 
-  const data = await prisma.eventType.delete({
-    where: {
-      id: formData.get("id") as string,
-      userId: session.user?.id as string,
-    },
-  });
+  // const data = await prisma.eventType.delete({
+  //   where: {
+  //     id: formData.get("id") as string,
+  //     userId: session.user?.id as string,
+  //   },
+  // });
 
   return redirect("/dashboard");
 }
 
 export async function updateEventTypeStatusAction(
-  prevState: any,
-  {
-    eventTypeId,
-    isChecked,
-  }: {
-    eventTypeId: string;
-    isChecked: boolean;
-  }
+  // prevState: any,
+  // {
+  //   eventTypeId,
+  //   isChecked,
+  // }: {
+  //   eventTypeId: string;
+  //   isChecked: boolean;
+  // }
 ) {
   try {
-    const session = await requireUser();
+    // const session = await requireUser();
 
-    const data = await prisma.eventType.update({
-      where: {
-        id: eventTypeId,
-        userId: session.user?.id as string,
-      },
-      data: {
-        active: isChecked,
-      },
-    });
+    // const data = await prisma.eventType.update({
+    //   where: {
+    //     id: eventTypeId,
+    //     userId: session.user?.id as string,
+    //   },
+    //   data: {
+    //     active: isChecked,
+    //   },
+    // });
 
     revalidatePath(`/dashboard`);
     return {
@@ -242,7 +241,7 @@ export async function updateEventTypeStatusAction(
 }
 
 export async function updateAvailabilityAction(formData: FormData) {
-  const session = await requireUser();
+  // const session = await requireUser();
 
   const rawData = Object.fromEntries(formData.entries());
   const availabilityData = Object.keys(rawData)
@@ -343,7 +342,7 @@ export async function createMeetingAction(formData: FormData) {
   return redirect(`/success`);
 }
 
-export async function cancelMeetingAction(formData: FormData) {
+export async function cancelMeetingAction() {
   const session = await requireUser();
 
   const userData = await prisma.user.findUnique({
@@ -360,13 +359,13 @@ export async function cancelMeetingAction(formData: FormData) {
     throw new Error("User not found");
   }
 
-  const data = await nylas.events.destroy({
-    eventId: formData.get("eventId") as string,
-    identifier: userData?.grantId as string,
-    queryParams: {
-      calendarId: userData?.grantEmail as string,
-    },
-  });
+  // const data = await nylas.events.destroy({
+  //   eventId: formData.get("eventId") as string,
+  //   identifier: userData?.grantId as string,
+  //   queryParams: {
+  //     calendarId: userData?.grantEmail as string,
+  //   },
+  // });
 
   revalidatePath("/dashboard/meetings");
 }
